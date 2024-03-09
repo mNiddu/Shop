@@ -1,6 +1,8 @@
-import { useState } from 'react';
+/* eslint-disable perfectionist/sort-imports */
 
-import Box from '@mui/material/Box';
+import axios from 'axios';
+import { useState } from 'react';
+import Box from '@mui/material/Box'; // Ensure there's only one space between 'react' and '@mui/material/Box'
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -13,7 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { useRouter } from 'src/routes/hooks';
+// import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
 
@@ -22,24 +24,42 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
+
+
+// ----------------------------------------------------------------------
+
 export default function LoginView() {
   const theme = useTheme();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [admin,setAdmin]=useState({})
 
+  const HandleChange=(e)=>{
+    
+    setAdmin({...admin,[e.target.name]:e.target.value})
+  }
+console.log(admin)
   const handleClick = () => {
-    router.push('/dashboard');
+    axios.post("https://shop-api-ten.vercel.app/api/admin/login",admin)
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   };
+
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField name="email" onChange={HandleChange} label="Email address" />
 
         <TextField
           name="password"
+          onChange={HandleChange}
           label="Password"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
