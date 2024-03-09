@@ -15,4 +15,8 @@ const Login=async(req,res)=>{
         console.log(err)
     }
 }
-module.exports = Login;
+const GetAdmin=async(req,res)=>{
+    const getData=await AdminLogin.find();
+    res.send(getData)
+}
+module.exports = {Login,GetAdmin};
