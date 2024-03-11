@@ -48,7 +48,7 @@ export default function LoginView() {
   }
 console.log(admin)
   const handleClick = () => {
-    axios.post("http://localhost:5000/api/admin/login",admin)
+    axios.post("https://shop-api-ten.vercel.app/api/admin/login",admin)
     .then((res)=>{
       if(res.data.success===false){
         toast.error(res.data.error, {
