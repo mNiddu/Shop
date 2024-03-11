@@ -1,6 +1,11 @@
 /* eslint-disable perfectionist/sort-imports */
-
+/* eslint-disable import/no-extraneous-dependencies */
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+/* eslint-enable import/no-extraneous-dependencies */
 import axios from 'axios';
+
 import { useState } from 'react';
 import Box from '@mui/material/Box'; // Ensure there's only one space between 'react' and '@mui/material/Box'
 import Link from '@mui/material/Link';
@@ -22,6 +27,7 @@ import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
+
 // ----------------------------------------------------------------------
 
 
@@ -30,7 +36,7 @@ import Iconify from 'src/components/iconify';
 
 export default function LoginView() {
   const theme = useTheme();
-
+  const navigate=useNavigate();
   // const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -42,9 +48,38 @@ export default function LoginView() {
   }
 console.log(admin)
   const handleClick = () => {
-    axios.post("https://shop-api-ten.vercel.app/api/admin/login",admin)
+    axios.post("http://localhost:5000/api/admin/login",admin)
     .then((res)=>{
-      console.log(res)
+      if(res.data.success===false){
+        toast.error(res.data.error, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        
+          });
+      }
+      if(res.data.success===true){
+        toast.success('Login SuccessFull', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+         
+          });
+          localStorage.setItem("token",res.data.token)
+          setTimeout(()=>{
+            navigate('/')
+          },2000)
+      }
     })
     .catch((err)=>{
       console.log(err)
@@ -55,6 +90,7 @@ console.log(admin)
   const renderForm = (
     <>
       <Stack spacing={3}>
+     
         <TextField name="email" onChange={HandleChange} label="Email address" />
 
         <TextField
@@ -90,10 +126,23 @@ console.log(admin)
       >
         Login
       </LoadingButton>
+     
     </>
   );
 
   return (
+    <> <ToastContainer
+    position="top-right"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="colored"
+  />
     <Box
       sx={{
         ...bgGradient({
@@ -170,5 +219,6 @@ console.log(admin)
         </Card>
       </Stack>
     </Box>
+    </>
   );
 }

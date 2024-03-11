@@ -1,22 +1,26 @@
 const AdminLogin = require('../model/login');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+require('dotenv').config();
 const Login=async(req,res)=>{
     try{
         const {email,password} = req.body;
-        const salt=await bcrypt.genSalt(10);
-        const   hashedPassword= await bcrypt.hash(password,salt);
-        const Logged=await new AdminLogin({email,password:hashedPassword});
-        const LoggedUser=await Logged.save();
-        res.json(LoggedUser);
+        const AdminEmail=await AdminLogin.findOne({email});
+        if(!AdminEmail){
+            res.json({error:'Incorrect Email or Password',success:false})
+        }
+        
+        const AdminPassword=await bcrypt.compare(password,AdminEmail.password);
+        if(!AdminPassword){
+            res.json({error:'Incorrect Email or Password',success:false})
+        }
+        const AdminId=AdminEmail.id;
+        const AdminToken=await jwt.sign(AdminId,process.env.secret_key)
+        res.json({success:true,token:AdminToken})
     }
     catch(err){
         console.log(err)
     }
 }
-const GetAdmin=async(req,res)=>{
-    const getData=await AdminLogin.find();
-    res.send(getData)
-}
-module.exports = {Login,GetAdmin};
+
+module.exports = Login;
