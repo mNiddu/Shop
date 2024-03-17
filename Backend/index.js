@@ -7,5 +7,6 @@ const app=express();
 app.use(cors());
  ConnectToMongo();
 app.use('/api/admin',require('./router/login'))
+app.use('/api/shop',require('./router/shop'))
 const port=process.env.PORT
 app.listen(port,()=>console.log(`server is running on port ${port}`))
