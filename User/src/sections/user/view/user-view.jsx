@@ -1,3 +1,7 @@
+/* eslint-disable perfectionist/sort-imports */
+/* eslint-disable import/no-extraneous-dependencies */
+import { useNavigate } from 'react-router-dom';
+/* eslint-disable import/no-extraneous-dependencies */
 import { useState } from 'react';
 
 import Card from '@mui/material/Card';
@@ -22,9 +26,13 @@ import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
+
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
+
+  const navigate=useNavigate();
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -94,13 +102,17 @@ export default function UserPage() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
+  const HandleAddUser=()=>{
+    navigate('/AddShop')
+  }
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New User
+        <Button variant="contained" onClick={HandleAddUser} color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+          Add Shop
         </Button>
       </Stack>
 
