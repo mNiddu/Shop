@@ -1,6 +1,7 @@
+/* eslint-disable perfectionist/sort-imports */
+/* eslint-disable import/no-extraneous-dependencies */
 import { Helmet } from 'react-helmet-async';
-
-import { UserView } from 'src/sections/user/view';
+import { UserView } from '../sections/shop/view';
 
 // ----------------------------------------------------------------------
 

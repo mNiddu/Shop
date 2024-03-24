@@ -17,5 +17,9 @@ const Shop=new Schema({
         type:String,
         // required:true,
     },
+    status:{
+        type:String,
+        default:'Active',
+    }
 })
 module.exports=mongoose.model('Shop',Shop);
