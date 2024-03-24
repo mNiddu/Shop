@@ -1,6 +1,6 @@
 /* eslint-disable perfectionist/sort-imports */
 /* eslint-disable import/no-extraneous-dependencies */
-// import { useNavigate } from 'react-router-dom';
+
 import { Box,Grid,TextField} from '@mui/material'
 import axios from 'axios'
 import { toast,ToastContainer } from 'react-toastify';
@@ -40,6 +40,7 @@ export default function UserPage() {
 console.log(shop)
   const HandleAddShop=()=>{
     console.log('jjj')
+    // shop-api-ten.vercel.app
    axios.post('https://shop-api-ten.vercel.app/api/shop/insert',shop)
    .then((res)=>{
     if(res.data.success===true){
